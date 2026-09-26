@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BJB Student's Voice – BJB Autonomous College, Bhubaneswar</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/jpeg" href="fab_icon.jpeg">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F26522;
+    --orange-dark: #C44D0E;
+    --orange-deep: #8B2E00;
+    --orange-light: #FF8C42;
+    --orange-pale: #FFF0E6;
+    --orange-mid: #FFD4B2;
+    --white: #FFFFFF;
+    --off-white: #FFF8F3;
+    --text-dark: #1A0A00;
+    --text-mid: #5C2D00;
+    --text-light: #9E5A1A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(242,101,34,0.97);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+    box-shadow: 0 4px 24px rgba(196,77,14,0.3);
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 900;
+    color: var(--white); letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+  .nav-brand span { color: var(--orange-mid); }
+  .nav-links { display: flex; gap: 0.2rem; }
+  .nav-links a {
+    color: var(--white); text-decoration: none;
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.45rem 0.9rem; border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,0.18); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 2rem 3rem;
+    position: relative; overflow: hidden;
+    background: var(--orange-deep);
+  }
+
+  /* Slideshow bg slides */
+  .hero-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0;
+    transition: opacity 1.6s ease-in-out;
+    pointer-events: none;
+  }
+  .hero-slide.active { opacity: 1; }
+
+  /* Dark + orange gradient overlay so text is always legible */
+  #home::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      135deg,
+      rgba(139,46,0,0.78) 0%,
+      rgba(196,77,14,0.68) 50%,
+      rgba(242,101,34,0.60) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Slide indicators */
+  .hero-dots {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 0.6rem; z-index: 3;
+  }
+  .hero-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer; transition: background 0.3s, transform 0.3s;
+    border: none; outline: none;
+  }
+  .hero-dot.active { background: var(--white); transform: scale(1.3); }
+  .hero-college {
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--orange-mid); margin-bottom: 1.2rem;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .hero-college::before, .hero-college::after { content: '—'; opacity: 0.5; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900; color: var(--white);
+    line-height: 1; letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title .accent { color: var(--orange-mid); }
+  .hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: rgba(255,255,255,0.75); font-weight: 300;
+    letter-spacing: 0.08em; margin-bottom: 2.8rem;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--white); color: var(--orange-dark);
+    padding: 0.85rem 2.2rem; border-radius: 50px;
+    font-weight: 700; font-size: 0.9rem; text-decoration: none;
+    letter-spacing: 0.04em; transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+  .btn-outline {
+    border: 2px solid rgba(255,255,255,0.5); color: var(--white);
+    padding: 0.85rem 2.2rem; border-radius: 50px;
+    font-weight: 600; font-size: 0.9rem; text-decoration: none;
+    letter-spacing: 0.04em; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.12); border-color: white; }
+
+  /* Floating shapes */
+  .shape {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+  .shape-1 { width: 400px; height: 400px; top: -100px; right: -100px; }
+  .shape-2 { width: 250px; height: 250px; bottom: 50px; left: -60px; }
+  .shape-3 { width: 150px; height: 150px; bottom: 180px; right: 10%; }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 5rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--orange);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900; color: var(--text-dark);
+    line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .section-title .hl { color: var(--orange); }
+  .divider {
+    width: 60px; height: 4px; background: var(--orange);
+    border-radius: 2px; margin-bottom: 2rem;
+  }
+
+  /* ── QUICK LINKS ── */
+  #quick-links { background: var(--white); }
+  .ql-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem; margin-top: 2rem;
+  }
+  .ql-card {
+    background: var(--orange-pale); border-left: 4px solid var(--orange);
+    padding: 1.2rem 1.4rem; border-radius: 10px;
+    font-size: 0.9rem; font-weight: 500; color: var(--text-mid);
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .ql-card:hover { background: var(--orange); color: var(--white); transform: translateX(4px); }
+  .ql-card .icon { font-size: 1.2rem; }
+
+  /* ── ABOUT / HIGHLIGHTS ── */
+  #about { background: var(--orange-pale); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-text p {
+    font-size: 1rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 1rem;
+  }
+  .highlights {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .highlight-item {
+    background: var(--white);
+    border-radius: 12px; padding: 1.1rem 1.4rem;
+    display: flex; align-items: center; gap: 1rem;
+    box-shadow: 0 2px 12px rgba(242,101,34,0.08);
+    border-left: 4px solid var(--orange-light);
+    transition: transform 0.2s;
+  }
+  .highlight-item:hover { transform: translateX(6px); }
+  .highlight-item .hi-icon {
+    width: 44px; height: 44px; background: var(--orange);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .highlight-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-dark); }
+
+  /* ── PROGRAMS ── */
+  #programs { background: var(--white); }
+  .programs-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .prog-card {
+    background: var(--off-white); border-radius: 16px;
+    padding: 1.6rem; position: relative; overflow: hidden;
+    transition: all 0.3s; border: 1px solid var(--orange-mid);
+  }
+  .prog-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: var(--orange);
+  }
+  .prog-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(242,101,34,0.18); }
+  .prog-badge {
+    display: inline-block; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.65rem; border-radius: 20px;
+    margin-bottom: 0.8rem;
+  }
+  .badge-sport { background: #FFF0E0; color: #C44D0E; }
+  .badge-social { background: #E8F5E0; color: #2E7D32; }
+  .badge-culture { background: #F3E5F5; color: #6A1B9A; }
+  .badge-env { background: #E0F7FA; color: #00695C; }
+  .prog-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.3rem; }
+  .prog-card p { font-size: 0.82rem; color: var(--text-light); }
+
+  /* ── GET INVOLVED ── */
+  #get-involved {
+    background: linear-gradient(135deg, var(--orange-dark) 0%, var(--orange) 100%);
+  }
+  #get-involved .section-title { color: var(--white); }
+  #get-involved .section-label { color: var(--orange-mid); }
+  #get-involved .divider { background: var(--white); }
+  .involved-steps {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; margin-top: 2rem;
+  }
+  .step {
+    background: rgba(255,255,255,0.12); border-radius: 16px;
+    padding: 2rem; text-align: center; color: var(--white);
+    backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2);
+    transition: background 0.2s;
+  }
+  .step:hover { background: rgba(255,255,255,0.2); }
+  .step-num {
+    width: 52px; height: 52px; background: var(--white);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900;
+    color: var(--orange-dark); margin: 0 auto 1rem;
+  }
+  .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.85rem; opacity: 0.85; line-height: 1.6; }
+
+  /* ── GALLERY (RUNNING EFFECT) ── */
+  #gallery { background: var(--off-white); overflow: hidden; }
+  .marquee-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 1.5rem;
+    animation: scrollMarquee 80s linear infinite; /* Slowed down significantly */
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .marquee-track img {
+    height: 260px;
+    width: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(242,101,34,0.15);
+    border: 2px solid var(--orange-mid);
+    cursor: pointer; /* Indicates it can be clicked */
+    transition: transform 0.2s;
+  }
+  .marquee-track img:hover {
+    transform: scale(1.02);
+  }
+  @keyframes scrollMarquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 0.75rem)); }
+  }
+
+  /* ── LIGHTBOX MODAL ── */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); /* Black w/ opacity */
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+  }
+  .modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    object-fit: contain;
+  }
+  .close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 1001;
+  }
+  .close-modal:hover { color: var(--orange); }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── NEWS ── */
+  #news { background: var(--white); }
+  .news-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .news-card {
+    border: 1px solid var(--orange-mid); border-radius: 14px;
+    padding: 1.6rem; transition: all 0.2s;
+  }
+  .news-card:hover { border-color: var(--orange); box-shadow: 0 8px 28px rgba(242,101,34,0.14); }
+  .news-tag {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem;
+  }
+  .news-card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; line-height: 1.4; }
+  .news-card p { font-size: 0.82rem; color: var(--text-light); line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--orange-pale); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .contact-info { display: flex; flex-direction: column; gap: 1.2rem; }
+  .ci-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: var(--white); padding: 1.2rem 1.4rem; border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(242,101,34,0.07);
+  }
+  .ci-icon {
+    width: 40px; height: 40px; background: var(--orange); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .ci-item h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.2rem; }
+  .ci-item p { font-size: 0.9rem; color: var(--text-dark); font-weight: 500; }
+  .contact-form { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(242,101,34,0.08); }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--text-mid); margin-bottom: 0.4rem; letter-spacing: 0.05em; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 0.8rem 1rem; border: 1.5px solid var(--orange-mid);
+    border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    background: var(--off-white); color: var(--text-dark);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--orange); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .btn-submit {
+    width: 100%; background: var(--orange); color: var(--white);
+    border: none; padding: 0.9rem; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s;
+  }
+  .btn-submit:hover { background: var(--orange-dark); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--text-dark); color: rgba(255,255,255,0.65);
+    padding: 2.5rem 2rem; text-align: center;
+  }
+  footer .footer-brand {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900;
+    color: var(--orange); margin-bottom: 0.5rem;
+  }
+  footer p { font-size: 0.82rem; line-height: 1.8; }
+  footer a.dev-link {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer a.dev-link:hover {
+    color: var(--orange);
+  }
+
+  /* ── ACHIEVEMENTS BAR ── */
+  .stats-bar {
+    background: var(--orange-dark);
+    padding: 2rem;
+    display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;
+  }
+  .stat { text-align: center; color: var(--white); }
+  .stat .num {
+    font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
+    color: var(--orange-mid); display: block; line-height: 1;
+  }
+  .stat .lbl { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.8; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about-grid, .contact-grid, .involved-steps { grid-template-columns: 1fr; gap: 2rem; }
+    .stats-bar { gap: 2rem; }
+    .marquee-track img { height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="https://www.instagram.com/bjb_students_voice?stkn=cmt5dmlsbzFlamJ3" target="_blank">BJB <span>Student's Voice</span></a>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#quick-links">Quick Links</a>
+    <a href="#about">About</a>
+    <a href="#programs">Programs</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <!-- Background slideshow images -->
+  <div class="hero-slide active" id="slide-0" style="background-image: url('clg%201.jpg');"></div>
+  <div class="hero-slide" id="slide-1" style="background-image: url('clg%202.jpg');"></div>
+  <div class="hero-slide" id="slide-2" style="background-image: url('clg%203.jpg');"></div>
+
+  <!-- Content above overlay -->
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+    <div class="hero-college">BJB Autonomous College, Bhubaneswar, Odisha</div>
+    <h1 class="hero-title">BJB <span class="accent">Student's</span><br>Voice</h1>
+    <p class="hero-sub">Empowering Every Student Voice</p>
+    <div class="hero-cta">
+      <a href="#programs" class="btn-primary">Explore Programs</a>
+      <a href="#get-involved" class="btn-outline">Get Involved</a>
+    </div>
+  </div>
+
+  <!-- Slide indicator dots -->
+  <div class="hero-dots">
+    <button class="hero-dot active" onclick="goSlide(0)"></button>
+    <button class="hero-dot" onclick="goSlide(1)"></button>
+    <button class="hero-dot" onclick="goSlide(2)"></button>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat"><span class="num">12+</span><span class="lbl">Programs</span></div>
+  <div class="stat"><span class="num">7000+</span><span class="lbl">Students</span></div>
+  <div class="stat"><span class="num">4</span><span class="lbl">Categories</span></div>
+  <div class="stat"><span class="num">1</span><span class="lbl">Voice, One Mission</span></div>
+</div>
+
+<!-- QUICK LINKS -->
+<section id="quick-links">
+  <div class="container">
+    <div class="section-label">Navigate</div>
+    <h2 class="section-title">Quick <span class="hl">Links</span></h2>
+    <div class="divider"></div>
+    <div class="ql-grid">
+      <div class="ql-card"><span class="icon">📚</span> 1st & 2nd Semester Notes (All Subjects, Core, MDC, Minor, etc.)</div>
+      <div class="ql-card"><span class="icon">📝</span> Previous Year Question Papers</div>
+      <div class="ql-card"><span class="icon">🎤</span> BJB Student's Voice Activities</div>
+      <div class="ql-card"><span class="icon">📅</span> Upcoming Voice Programs</div>
+      <div class="ql-card"><span class="icon">📢</span> Important Notices</div>
+      <div class="ql-card"><span class="icon">📣</span> Report a Complaint (Academics, Campus, etc.)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT + HIGHLIGHTS -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">Who We Are</div>
+        <h2 class="section-title">Welcome to BJB <span class="hl">Students' Voice</span></h2>
+        <div class="divider"></div>
+        <p>BJB Students' Voice is a student-led NGO initiated initiative focused on raising awareness, promoting education, and empowering youth voices in society.</p>
+        <p>Our mission is to create a platform where students can express ideas, address social issues, and bring meaningful change within and beyond our campus.</p>
+        <a href="https://wa.me/919337838188" target="_blank" class="btn-primary" style="display:inline-block;margin-top:1rem;">Join Us Today</a>
+      </div>
+      <div class="highlights">
+        <div class="section-label" style="margin-bottom:0.8rem;">Our Highlights</div>
+        <div class="highlight-item">
+          <div class="hi-icon">🎓</div>
+          <div><h4>Education & Awareness Campaigns</h4></div>
+        </div>
+        <div class="highlight-item">
+          <div class="hi-icon">🎙️</div>
+          <div><h4>Student Voice & Expressions</h4></div>
+        </div>
+        <div class="highlight-item">
+          <div class="hi-icon">🤝</div>
+          <div><h4>Social Welfare Activities</h4></div>
+        </div>
+        <div class="highlight-item">
+          <div class="hi-icon">🌟</div>
+          <div><h4>Volunteer Opportunities</h4></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Our Programs <span class="hl">&amp; Activities</span></h2>
+    <div class="divider"></div>
+    <div class="programs-grid">
+      <div class="prog-card">
+        <span class="prog-badge badge-env">Environment</span>
+        <h3>Awareness Campaigns</h3>
+        <p>Education, Health & Environment campaigns for community impact.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-culture">Cultural</span>
+        <h3>BJB Fiesta 2K25</h3>
+        <p>A grand cultural event celebrating creativity, talent, and diversity.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-sport">Sports</span>
+        <h3>BJB Super League</h3>
+        <p>Inter-college sports tournament fostering teamwork and competition.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-social">Social Service</span>
+        <h3>Help Desk</h3>
+        <p>On-ground social service initiative supporting the campus community.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-env">Environment</span>
+        <h3>BJB Study Tour</h3>
+        <p>Field-based learning journey focused on environmental awareness.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-sport">Sports</span>
+        <h3>Esports Tournament</h3>
+        <p>Competitive gaming event uniting tech enthusiasts and gamers.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-social">Social Service</span>
+        <h3>Rakhsa Bandhan</h3>
+        <p>Celebrating bonds of protection, solidarity, and community care.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-social">Social Service</span>
+        <h3>Friendship Day Celebration</h3>
+        <p>A day dedicated to recognising and celebrating meaningful friendships.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-sport">Sports</span>
+        <h3>Inter-Department Box Cricket</h3>
+        <p>Departmental cricket clash bringing the campus together on the field.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-sport">Sports</span>
+        <h3>Buxi Cup</h3>
+        <p>A signature sports event celebrating athletic spirit at BJB.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-env">Environment</span>
+        <h3>Swach Environment</h3>
+        <p>Campus cleanliness and green initiative for a sustainable future.</p>
+      </div>
+      <div class="prog-card">
+        <span class="prog-badge badge-social">Social Service</span>
+        <h3>Blood Donation Camp</h3>
+        <p>Life-saving donation drives organised for the broader community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GET INVOLVED -->
+<section id="get-involved">
+  <div class="container">
+    <div class="section-label">Join the Movement</div>
+    <h2 class="section-title">Get <span style="color:var(--orange-mid)">Involved</span></h2>
+    <div class="divider"></div>
+    <div class="involved-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Fill Out Registration Form</h3>
+        <p>Sign up as a volunteer or member through our simple online registration form.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Participate in Social Campaigns</h3>
+        <p>Join our education, health, and environmental campaigns to create real impact.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Gain Experience &amp; Certificates</h3>
+        <p>Earn certificates of participation and build your portfolio of social leadership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY (MEMORIES RUNNING EFFECT) -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-label">Memories</div>
+    <h2 class="section-title">Our <span class="hl">Gallery</span></h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <!-- Original Set -->
+      <img src="1001217167.jpg.jpeg" alt="BJB Event Audience" />
+      <img src="1001217174.jpg.jpeg" alt="BJB Administrative Block Group Photo" />
+      <img src="1001225293.jpg.jpeg" alt="BJB Stage Event Guests" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.14.43%20PM.jpeg" alt="BJB Super League Stage" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.15.14%20PM.jpeg" alt="Campus Students Gathering" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.15.31%20PM.jpeg" alt="BJB Picnic Group" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.02%20PM.jpeg" alt="BJB Science Block Students" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.16%20PM.jpeg" alt="Janmastami Celebration at College Gate" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.30%20PM.jpeg" alt="Sports Field Lineup" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%2010.09.40%20AM.jpeg" alt="BJB Students Voice Group" />
+      <img src="swachbjb.jpeg" alt="BJB Students Voice Group 3" />
+
+      <!-- Duplicated Set for Infinite Loop -->
+      <img src="1001217167.jpg.jpeg" alt="BJB Event Audience" />
+      <img src="1001217174.jpg.jpeg" alt="BJB Administrative Block Group Photo" />
+      <img src="1001225293.jpg.jpeg" alt="BJB Stage Event Guests" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.14.43%20PM.jpeg" alt="BJB Super League Stage" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.15.14%20PM.jpeg" alt="Campus Students Gathering" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.15.31%20PM.jpeg" alt="BJB Picnic Group" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.02%20PM.jpeg" alt="BJB Science Block Students" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.16%20PM.jpeg" alt="Janmastami Celebration at College Gate" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%207.16.30%20PM.jpeg" alt="Sports Field Lineup" />
+      <img src="WhatsApp%20Image%202026-09-26%20at%2010.09.40%20AM.jpeg" alt="BJB Students Voice Group" />
+      <img src="swachbjb.jpeg" alt="BJB Students Voice Group 3" />
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX MODAL -->
+<div id="imageModal" class="modal">
+  <span class="close-modal">&times;</span>
+  <img class="modal-content" id="modalImg" alt="Full size gallery image">
+</div>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="container">
+    <div class="section-label">Stay Updated</div>
+    <h2 class="section-title">Latest <span class="hl">News</span></h2>
+    <div class="divider"></div>
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-tag">📌 Latest Activities</div>
+        <h3>BJB Fiesta – A Cultural Extravaganza</h3>
+        <p>The annual cultural fest was a grand success with participation from all departments and breathtaking performances.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-tag">🗓️ Upcoming Event</div>
+        <h3>Buxi Cup – Registration Open</h3>
+        <p>Registrations are now open for the Buxi Cup sports tournament. Sign up your department team before the deadline.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-tag">✍️ Student Articles</div>
+        <h3>Youth and the Environment: A Student's Perspective</h3>
+        <p>A thought-provoking article by a BJB student on climate change and the role of youth in environmental activism.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-tag">💬 Social Issue Discussion</div>
+        <h3>Panel Discussion: Mental Health Awareness on Campus</h3>
+        <p>An open forum where students shared experiences and discussed the importance of mental wellness and peer support.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-tag">📢 Latest Updates</div>
+        <h3>Semester Notes for 1st & 2nd Year Now Available</h3>
+        <p>All core, MDC, and minor subject notes have been updated and are available via the Quick Links section.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Reach Out</div>
+    <h2 class="section-title">Contact <span class="hl">Us</span></h2>
+    <div class="divider"></div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="ci-item">
+          <div class="ci-icon">📞</div>
+          <div><h4>Phone</h4><p>9337838188</p></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">✉️</div>
+          <div><h4>Email</h4><p>bjbstudentsvoice@gmail.com</p></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div><h4>Location</h4><p>BJB Autonomous College, Bhubaneswar, Odisha</p></div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-light);line-height:1.7;margin-top:0.5rem;">
+          Have questions, complaints, or want to collaborate? Reach out to us through any of the channels above or fill out the form.
+        </p>
+      </div>
+      <div class="contact-form">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.2rem;color:var(--text-dark);">Send a Message</h3>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <select>
+            <option>General Inquiry</option>
+            <option>Academic Complaint</option>
+            <option>Campus Issue</option>
+            <option>Volunteer / Join</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Write your message here..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="window.open('https://wa.me/919337838188', '_blank')">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">BJB Student's Voice</div>
+  <p>Empowering Every Student Voice · BJB Autonomous College, Bhubaneswar, Odisha</p>
+  <p style="margin-top:0.5rem;font-size:0.75rem;opacity:0.5;">© 2025 BJB Students' Voice. A student-led NGO initiative.</p>
+  <p><a href="https://www.instagram.com/_rayr._?stkn=MThmanZpdnVlem9mcA==" target="_blank" class="dev-link">(DEVELOPED BY @SHAKTIPRASAD)</a></p>
+</footer>
+
+<script>
+  // Smooth scroll for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Mobile navigation toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '64px';
+      navLinks.style.left = '0';
+      navLinks.style.width = '100%';
+      navLinks.style.background = 'rgba(242,101,34,0.98)';
+      navLinks.style.padding = '1rem';
+    });
+  }
+
+  // Hero slideshow auto-play & dot controller
+  let currentSlide = 0;
+  const totalSlides = 3;
+
+  function goSlide(index) {
+    currentSlide = index;
+    document.querySelectorAll('.hero-slide').forEach((s, i) => {
+      s.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.hero-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+  }
+
+  // Auto-advance the hero slider every 5 seconds
+  setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    goSlide(currentSlide);
+  }, 5000);
+
+  // Gallery Lightbox Modal Logic
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
+  const closeModal = document.querySelector(".close-modal");
+
+  // Open modal on image click
+  document.querySelectorAll('.marquee-track img').forEach(img => {
+    img.addEventListener('click', function() {
+      modal.classList.add('show');
+      modalImg.src = this.src;
+    });
+  });
+
+  // Close modal on 'X' click
+  closeModal.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  // Close modal when clicking outside the image
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('show');
+    }
+  });
+</script>
+
+</body>
+</html>
